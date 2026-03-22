@@ -1,7 +1,10 @@
 <?php
 require_once 'db.php';
+session_start();
+$userId = $_SESSION['user'];
 
-$stmt = $pdo->query("SELECT * FROM expenses ORDER BY created_at DESC");
+$stmt = $pdo->prepare("SELECT * FROM bills where user_id = ?");
+$stmt->execute([$userId]);
 $expenses = $stmt->fetchAll();
 ?>
 
@@ -51,6 +54,10 @@ $expenses = $stmt->fetchAll();
           class="flex items-center gap-2 bg-zinc-950 hover:bg-zinc-950/20 text-white text-sm font-medium px-4 py-2 rounded-lg transition">
           Add Expense
         </button>
+        <button onclick="window.location.href='logout.php'"
+          class="flex items-center gap-2 bg-red-600 hover:bg-red-600/70 text-white text-sm font-medium px-4 py-2 rounded-lg transition">
+          Logout
+        </button>
       </div>
     </div>
     <div class="flex items-center gap-3 mb-6">
@@ -62,7 +69,7 @@ $expenses = $stmt->fetchAll();
       $categories = ["food", "transport", "medical", "utilities"];
       ?>
 
-      <select
+      <select name="category"
         class="bg-[#1c1c1e] border border-zinc-700 rounded-lg px-3 py-2 text-sm text-slate-300 focus:border-blue-500 focus:outline-none">
         <option value="">All categories</option>
         <?php foreach ($categories as $c): ?>
@@ -74,31 +81,42 @@ $expenses = $stmt->fetchAll();
     </div>
 
     <div class="flex flex-col gap-3">
-      <div class="expense-card bg-[#1c1c1e] border border-zinc-200/10 rounded-xl px-5 py-4">
-        <div class="flex items-start justify-between gap-4">
-          <div class="flex flex-col gap-1.5 min-w-0">
-            <span class="text-white font-medium text-sm">Business Wifi</span>
-            <span class="text-xs px-2 py-0.5 rounded-md font-medium w-fit bg-blue-500/20 text-blue-300">Utilities</span>
-          </div>
-          <div class="flex flex-col items-end gap-1 shrink-0">
-            <span class="text-white font-semibold text-sm">₱10,000.00</span>
-            <span class="text-slate-500 text-xs">10/13/2026</span>
-            <div class="flex gap-3 mt-2">
-              <button class="text-slate-500 hover:text-blue-400 transition">
-                <?php include("svg/edit.php") ?>
-              </button>
-              <button class="text-slate-500 hover:text-red-400 transition">
-                <?php include("svg/delete.php") ?>
-              </button>
+      <?php foreach ($expenses as $e): ?>
+        <div id="card-<?= $e['id'] ?>" onclick="border(<?= $e['id'] ?>)"
+          class="expense-card bg-[#1c1c1e] border border-zinc-200/10 rounded-xl px-5 py-4 cursor-pointer">
+          <div class="flex items-start justify-between gap-4">
+            <div class="flex flex-col gap-1.5 min-w-0">
+              <span class="text-white font-medium text-sm">
+                <?= $e['title'] ?>
+              </span>
+              <span class="text-xs px-2 py-0.5 rounded-md font-medium w-fit bg-blue-500/20 text-blue-300">
+                <?= $e['category'] ?>
+              </span>
+            </div>
+            <div class="flex flex-col items-end gap-1 shrink-0">
+              <span class="text-white font-semibold text-sm">
+                <?= $e['amount'] ?>
+              </span>
+              <span class="text-slate-500 text-xs">
+                <?= $e['expense_date'] ?>
+              </span>
+              <div class="flex gap-3 mt-2">
+                <button class="text-slate-500 hover:text-blue-400 transition">
+                  <?php include("svg/edit.php") ?>
+                </button>
+                <button class="text-slate-500 hover:text-red-400 transition">
+                  <?php include("svg/delete.php") ?>
+                </button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      <?php endforeach; ?>
     </div>
   </main>
 
   <?php include("modal.php") ?>
-
+  <?php include("deleteModal.php") ?>
   <script>
     let state = {
       modalOpen: false,
@@ -123,6 +141,18 @@ $expenses = $stmt->fetchAll();
       setState({
         modalOpen: false
       })
+    }
+
+
+    const deleteModal = () => {}
+
+    function border(id) {
+      document.querySelectorAll('.expense-card').forEach(card => {
+        card.classList.remove('border-white');
+      });
+
+      const el = document.getElementById('card-' + id);
+      el.classList.add('border-white');
     }
   </script>
 </body>

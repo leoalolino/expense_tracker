@@ -1,35 +1,21 @@
 <?php
 require 'db.php';
-$msg = null;
+session_start();
+$error = null;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  $name             = $_POST['name'];
-  $password         = $_POST['password'];
-  $confirm_password = $_POST['confirm_password'];
-
-  foreach ([$name, $password, $confirm_password] as $field) {
-    if (empty($field)) {
-      $msg = "All fields are required.";
-      goto end;
-    }
-  }
-
+  $name     = $_POST['name'];
+  $password = $_POST['password'];
   $stmt = $pdo->prepare('SELECT * FROM users WHERE name = ?');
   $stmt->execute([$name]);
-  $check = $stmt->fetch();
-
-  if ($check) {
-    $msg = "Username already exists!";
-  } elseif ($password !== $confirm_password) {
-    $msg = "Passwords do not match!";
-  } else {
-    $hashed = password_hash($password, PASSWORD_DEFAULT);
-    $stmt   = $pdo->prepare('INSERT INTO users (name, password) VALUES (?, ?)');
-    $stmt->execute([$name, $hashed]);
-    header('Location: login.php');
+  $user = $stmt->fetch();
+  if ($user && password_verify($password, $user['password'])) {
+    $_SESSION['user'] = $user['id'];
+    header('Location: dashboard.php');
     exit;
+  } else {
+    $error = 'Invalid username or password';
   }
-  end:;
 }
 ?>
 <!DOCTYPE html>
@@ -38,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Register — Expenses</title>
+  <title>Login — Expenses</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     body {
@@ -54,41 +40,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         class="w-10 h-10 rounded-xl bg-[#1c1c1e] border border-zinc-200/10 flex items-center justify-center mx-auto mb-4">
         <span class="text-white font-bold text-sm">V</span>
       </div>
-      <h1 class="text-xl font-semibold">Create account</h1>
-      <p class="text-slate-400 text-sm mt-1">Start tracking your expenses today</p>
+      <h1 class="text-xl font-semibold">Welcome back</h1>
+      <p class="text-slate-400 text-sm mt-1">Sign in to your expenses account</p>
     </div>
 
-    <?php if ($msg): ?>
+    <?php if ($error): ?>
       <div class="mb-4 px-4 py-3 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 text-sm">
-        <?= $msg ?>
+        <?= $error ?>
       </div>
     <?php endif; ?>
 
     <form method="POST" class="flex flex-col gap-4">
       <div>
         <label class="text-xs text-slate-400 mb-1 block">Username</label>
-        <input type="text" name="name" placeholder="Choose a username" required
+        <input type="text" name="name" placeholder="Enter your username" required
           class="w-full bg-[#1c1c1e] border border-zinc-200/10 rounded-lg px-3 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-blue-500" />
       </div>
       <div>
         <label class="text-xs text-slate-400 mb-1 block">Password</label>
-        <input type="password" name="password" placeholder="Choose a password" required
-          class="w-full bg-[#1c1c1e] border border-zinc-200/10 rounded-lg px-3 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-blue-500" />
-      </div>
-      <div>
-        <label class="text-xs text-slate-400 mb-1 block">Confirm Password</label>
-        <input type="password" name="confirm_password" placeholder="Re-enter your password" required
+        <input type="password" name="password" placeholder="Enter your password" required
           class="w-full bg-[#1c1c1e] border border-zinc-200/10 rounded-lg px-3 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-blue-500" />
       </div>
       <button type="submit"
         class="w-full py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-sm text-white font-medium transition mt-2">
-        Create Account
+        Sign In
       </button>
     </form>
 
     <p class="text-center text-slate-400 text-sm mt-6">
-      Already have an account?
-      <a href="login.php" class="text-blue-400 hover:text-blue-300 transition">Sign in</a>
+      Don't have an account?
+      <a href="register.php" class="text-blue-400 hover:text-blue-300 transition">Sign up</a>
     </p>
   </div>
 </body>

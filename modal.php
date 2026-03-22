@@ -1,8 +1,6 @@
 <div class="fixed inset-0 bg-black/60 z-50 flex items-center justify-center" id="modal" style="display:none">
-
   <div class="bg-[#1c1c1e] border border-zinc-200/10 rounded-2xl p-6 w-full max-w-md mx-4">
-
-    <form action="logic.php" method="POST">
+    <form action="crud/logic.php" method="POST">
       <div class="flex items-center justify-between mb-6">
         <h2 class="text-base font-semibold text-white">Add Expense</h2>
         <button onclick="closeModal()" class="text-slate-500 hover:text-white transition">
@@ -44,14 +42,14 @@
 
         <div>
           <label class="text-xs text-slate-400 mb-1 block">Date</label>
-          <input type="date" name="date" required
+          <input type="date" name="expense_date" required
             class="w-full bg-[#2c2c2e] border border-zinc-200/10 rounded-lg px-3 py-2 text-sm text-slate-300 focus:outline-none focus:border-blue-500" />
         </div>
 
         <div>
           <label class="text-xs text-slate-400 mb-1 block">Description <span
               class="text-slate-600">(optional)</span></label>
-          <input type="text" placeholder="Add a note..." name="description" required
+          <input type="text" placeholder="Add a note..." name="description"
             class="w-full bg-[#2c2c2e] border border-zinc-200/10 rounded-lg px-3 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-blue-500" />
         </div>
 
