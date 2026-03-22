@@ -146,7 +146,13 @@ $expenses = $stmt->fetchAll();
         modalOpen: false
       })
     }
+
     let selectedId = null;
+    let selectedTitle = null;
+    let selectedAmount = null;
+    let selectedCategory = null;
+    let selectedDate = null;
+    let selectedDescription = null;
 
     function crudDelete() {
       fetch('crud/logic.php', {
@@ -166,8 +172,13 @@ $expenses = $stmt->fetchAll();
         card.classList.remove('border-white');
       });
       selectedId = id;
-      console.log(selectedId);
-      document.getElementById("record_id").innerHTML = id
+      selectedTitle = title;
+      selectedAmount = amount;
+      selectedCategory = category;
+      selectedDate = expense_date;
+      selectedDescription = description;
+
+      document.getElementById("record_id").innerHTML = id;
       document.getElementById('title').innerHTML = title;
       document.getElementById('amount').innerHTML = `₱ ${amount}`;
       document.getElementById('amountDetail').innerHTML = `₱ ${amount}`;
@@ -178,6 +189,16 @@ $expenses = $stmt->fetchAll();
 
       const el = document.getElementById('card-' + id);
       el.classList.add('border-white');
+    }
+
+    function openEdit() {
+      document.getElementById('editId').value = selectedId;
+      document.getElementById('editTitle').value = selectedTitle;
+      document.getElementById('editAmount').value = selectedAmount;
+      document.getElementById('editCategory').value = selectedCategory;
+      document.getElementById('editDate').value = selectedDate;
+      document.getElementById('editDescription').value = selectedDescription;
+      document.getElementById('editModal').classList.remove('hidden');
     }
   </script>
 </body>

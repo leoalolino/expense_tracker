@@ -16,6 +16,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       exit;
     }
 
+    if (isset($_POST['action']) && $_POST['action'] === 'update') {
+      $id          = $_POST['id'];
+      $title       = $_POST['title'];
+      $amount      = $_POST['amount'];
+      $category    = $_POST['category'];
+      $description = $_POST['description'];
+      $date        = $_POST['expense_date'];
+
+      $stmt = $pdo->prepare("UPDATE bills SET title=?, amount=?, category=?, description=?, expense_date=? WHERE id=? AND user_id=?");
+      $stmt->execute([$title, $amount, $category, $description, $date, $id, $userId]);
+      header('Location: ../dashboard.php');
+      exit;
+    }
+
+    // update
+    if (isset($_POST['action']) && $_POST['action'] === 'update') {
+      $id          = $_POST['id'];
+      $title       = $_POST['title'];
+      $amount      = $_POST['amount'];
+      $category    = $_POST['category'];
+      $description = $_POST['description'];
+      $date        = $_POST['expense_date'];
+
+      $stmt = $pdo->prepare("UPDATE bills SET title=?, amount=?, category=?, description=?, expense_date=? WHERE id=? AND user_id=?");
+      $stmt->execute([$title, $amount, $category, $description, $date, $id, $userId]);
+      header('Location: ../dashboard.php');
+      exit;
+    }
+
+    // add
     $title  = $_POST['title'];
     $amount = $_POST['amount'];
     $category = $_POST['category'];

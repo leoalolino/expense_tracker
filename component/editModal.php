@@ -63,16 +63,6 @@
 </div>
 
 <script>
-  // function openEdit(id, title, amount, category, description, date) {
-  //   document.getElementById('editId').value = id;
-  //   document.getElementById('editTitle').value = title;
-  //   document.getElementById('editAmount').value = amount;
-  //   document.getElementById('editCategory').value = category;
-  //   document.getElementById('editDescription').value = description;
-  //   document.getElementById('editDate').value = date;
-  //   document.getElementById('editModal').classList.remove('hidden');
-  // }
-
   function closeEdit() {
     document.getElementById('editModal').classList.add('hidden');
   }

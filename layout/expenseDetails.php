@@ -62,8 +62,4 @@
     document.getElementById('deleteModal').classList.remove('hidden');
 
   }
-
-  function openEdit() {
-    document.getElementById('editModal').classList.remove('hidden');
-  }
 </script>
