@@ -55,7 +55,7 @@
         </button>
         <button type="submit"
           class="flex-1 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-sm text-white font-medium transition">
-          Save Changes
+          Save Change
         </button>
       </div>
     </form>
