@@ -1,10 +1,9 @@
-<div class="fixed inset-0 bg-black/60 z-50 flex items-center justify-center hidden" id="editModal">
+<div id="editModal" class="fixed inset-0 bg-black/60 z-50 flex items-center justify-center hidden">
   <div class="bg-[#1c1c1e] border border-zinc-200/10 rounded-2xl p-6 w-full max-w-md mx-4">
     <form action="crud/logic.php" method="POST">
       <input type="hidden" name="action" value="update">
       <input type="hidden" name="id" id="editId">
 
-      <!-- Header -->
       <div class="flex items-center justify-between mb-6">
         <h2 class="text-base font-semibold text-white">Edit Expense</h2>
         <button type="button" onclick="closeEdit()" class="text-slate-500 hover:text-white transition">
@@ -14,17 +13,16 @@
         </button>
       </div>
 
-      <!-- Fields -->
       <div class="flex flex-col gap-4">
         <div>
           <label class="text-xs text-slate-400 mb-1 block">Title</label>
-          <input type="text" name="title" id="editTitle" placeholder="e.g. Business Wifi"
-            class="w-full bg-[#2c2c2e] border border-zinc-200/10 rounded-lg px-3 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-blue-500" />
+          <input type="text" name="title" id="editTitle"
+            class="w-full bg-[#2c2c2e] border border-zinc-200/10 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-blue-500" />
         </div>
         <div>
           <label class="text-xs text-slate-400 mb-1 block">Amount (₱)</label>
-          <input type="number" name="amount" id="editAmount" placeholder="0.00"
-            class="w-full bg-[#2c2c2e] border border-zinc-200/10 rounded-lg px-3 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-blue-500" />
+          <input type="number" name="amount" id="editAmount"
+            class="w-full bg-[#2c2c2e] border border-zinc-200/10 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-blue-500" />
         </div>
         <div>
           <label class="text-xs text-slate-400 mb-1 block">Category</label>
@@ -45,15 +43,14 @@
         <div>
           <label class="text-xs text-slate-400 mb-1 block">Description <span
               class="text-slate-600">(optional)</span></label>
-          <input type="text" name="description" id="editDescription" placeholder="Add a note..."
-            class="w-full bg-[#2c2c2e] border border-zinc-200/10 rounded-lg px-3 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-blue-500" />
+          <input type="text" name="description" id="editDescription"
+            class="w-full bg-[#2c2c2e] border border-zinc-200/10 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-blue-500" />
         </div>
       </div>
 
-      <!-- Buttons -->
       <div class="flex gap-3 mt-6">
         <button type="button" onclick="closeEdit()"
-          class="flex-1 py-2 rounded-lg border border-zinc-200/10 text-sm text-slate-400 hover:text-white hover:border-zinc-200/20 transition">
+          class="flex-1 py-2 rounded-lg border border-zinc-200/10 text-sm text-slate-400 hover:text-white transition">
           Cancel
         </button>
         <button type="submit"
@@ -61,13 +58,22 @@
           Save Changes
         </button>
       </div>
-
     </form>
   </div>
 </div>
 
 <script>
+  // function openEdit(id, title, amount, category, description, date) {
+  //   document.getElementById('editId').value = id;
+  //   document.getElementById('editTitle').value = title;
+  //   document.getElementById('editAmount').value = amount;
+  //   document.getElementById('editCategory').value = category;
+  //   document.getElementById('editDescription').value = description;
+  //   document.getElementById('editDate').value = date;
+  //   document.getElementById('editModal').classList.remove('hidden');
+  // }
+
   function closeEdit() {
-    document.getElementById('editModal').style.display = 'none';
+    document.getElementById('editModal').classList.add('hidden');
   }
 </script>

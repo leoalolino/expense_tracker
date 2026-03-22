@@ -1,4 +1,4 @@
-<div class="fixed inset-0 bg-black/60 z-50 flex items-center justify-center">
+<div id="deleteModal" class="fixed inset-0 bg-black/60 z-50 flex items-center justify-center hidden">
   <div class="bg-[#1c1c1e] border border-zinc-200/10 rounded-2xl p-6 w-full max-w-sm mx-4">
     <div class="flex flex-col items-center gap-4 text-center">
       <!-- Icon -->
@@ -16,29 +16,16 @@
       </div>
       <!-- Buttons -->
       <div class="flex gap-3 w-full mt-2">
-        <button
+        <button onclick="window.location.reload()"
           class="flex-1 py-2 rounded-lg border border-zinc-200/10 text-sm text-slate-400 hover:text-white hover:border-zinc-200/20 transition">
           Cancel
         </button>
-        <button class="flex-1 py-2 rounded-lg bg-red-600 hover:bg-red-700 text-sm text-white font-medium transition">
+
+        <button onclick="crudDelete()"
+          class="flex-1 py-2 rounded-lg bg-red-600 hover:bg-red-700 text-sm text-white font-medium transition">
           Delete
         </button>
       </div>
     </div>
   </div>
 </div>
-
-<!-- <script> -->
-<!--   function openDeleteModal(id) { -->
-<!--     document.getElementById('deleteRecordId').textContent = '#' + id; -->
-<!--     document.getElementById('deleteModal').style.display = 'flex'; -->
-<!--   } -->
-<!---->
-<!--   function closeDeleteModal() { -->
-<!--     document.getElementById('deleteModal').style.display = 'none'; -->
-<!--   } -->
-<!---->
-<!--   function confirmDelete() { -->
-<!--     // handle delete here -->
-<!--   } -->
-<!-- </script> -->

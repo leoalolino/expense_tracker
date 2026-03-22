@@ -43,9 +43,10 @@ $expenses = $stmt->fetchAll();
   </style>
 </head>
 
-<body class="text-white font-sans min-h-screen flex">
+<body class="text-white font-sans min-h-screen flex justify-between">
+  <?php include("sidebar.php") ?>
+
   <main class="ml-56 flex-1 p-8 max-w-4xl">
-    <?php include("sidebar.php") ?>
     <div class="flex items-center justify-between mb-8">
       <h1 class="text-xl font-semibold text-white">Your Expenses</h1>
       <div class="flex items-center gap-3">
@@ -82,7 +83,8 @@ $expenses = $stmt->fetchAll();
 
     <div class="flex flex-col gap-3">
       <?php foreach ($expenses as $e): ?>
-        <div id="card-<?= $e['id'] ?>" onclick="border(<?= $e['id'] ?>)"
+        <div id="card-<?= $e['id'] ?>"
+          onclick="details(<?= $e['id'] ?>, '<?= $e['title'] ?>', '<?= $e['amount'] ?>', '<?= $e['category'] ?>', '<?= $e['description'] ?>', '<?= $e['expense_date'] ?>' )"
           class="expense-card bg-[#1c1c1e] border border-zinc-200/10 rounded-xl px-5 py-4 cursor-pointer">
           <div class="flex items-start justify-between gap-4">
             <div class="flex flex-col gap-1.5 min-w-0">
@@ -100,23 +102,25 @@ $expenses = $stmt->fetchAll();
               <span class="text-slate-500 text-xs">
                 <?= $e['expense_date'] ?>
               </span>
-              <div class="flex gap-3 mt-2">
-                <button class="text-slate-500 hover:text-blue-400 transition">
-                  <?php include("svg/edit.php") ?>
-                </button>
-                <button class="text-slate-500 hover:text-red-400 transition">
-                  <?php include("svg/delete.php") ?>
-                </button>
-              </div>
+              <!-- <div class="flex gap-3 mt-2"> -->
+              <!--   <button class="text-slate-500 hover:text-blue-400 transition"> -->
+              <!--     <?php include("svg/edit.php") ?> -->
+              <!--   </button> -->
+              <!--   <button class="text-slate-500 hover:text-red-400 transition"> -->
+              <!--     <?php include("svg/delete.php") ?> -->
+              <!--   </button> -->
+              <!-- </div> -->
             </div>
           </div>
         </div>
       <?php endforeach; ?>
     </div>
   </main>
-
+  <?php include("layout/expenseDetails.php") ?>
   <?php include("modal.php") ?>
-  <?php include("deleteModal.php") ?>
+  <?php include("component/deleteModal.php") ?>
+  <?php include("component/editModal.php") ?>
+
   <script>
     let state = {
       modalOpen: false,
@@ -142,14 +146,35 @@ $expenses = $stmt->fetchAll();
         modalOpen: false
       })
     }
+    let selectedId = null;
 
+    function crudDelete() {
+      fetch('crud/logic.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          id: selectedId,
+          action: 'delete'
+        })
+      }).then(() => window.location.reload());
+    }
 
-    const deleteModal = () => {}
-
-    function border(id) {
+    function details(id, title, amount, category, description, expense_date) {
       document.querySelectorAll('.expense-card').forEach(card => {
         card.classList.remove('border-white');
       });
+      selectedId = id;
+      console.log(selectedId);
+      document.getElementById("record_id").innerHTML = id
+      document.getElementById('title').innerHTML = title;
+      document.getElementById('amount').innerHTML = `₱ ${amount}`;
+      document.getElementById('amountDetail').innerHTML = `₱ ${amount}`;
+      document.getElementById('category').innerHTML = category;
+      document.getElementById('categoryDetail').innerHTML = category;
+      document.getElementById('date').innerHTML = expense_date;
+      document.getElementById('description').innerHTML = description || "No description";
 
       const el = document.getElementById('card-' + id);
       el.classList.add('border-white');
