@@ -17,13 +17,13 @@
 
         <div>
           <label class="text-xs text-slate-400 mb-1 block">Title</label>
-          <input type="text" placeholder="e.g. Business Wifi" name="title"
+          <input type="text" placeholder="e.g. Business Wifi" name="title" required
             class="w-full bg-[#2c2c2e] border border-zinc-200/10 rounded-lg px-3 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-blue-500" />
         </div>
 
         <div>
           <label class="text-xs text-slate-400 mb-1 block">Amount (₱)</label>
-          <input type="number" placeholder="0.00" name="amount"
+          <input type="number" placeholder="0.00" name="amount" required
             class="w-full bg-[#2c2c2e] border border-zinc-200/10 rounded-lg px-3 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-blue-500" />
         </div>
 
@@ -32,7 +32,7 @@
           $categories = ["Select", "Utilities", "Food", "Transport", "Health", "Other"];
           ?>
           <label class="text-xs text-slate-400 mb-1 block">Category</label>
-          <select
+          <select name="category"
             class="w-full bg-[#2c2c2e] border border-zinc-200/10 rounded-lg px-3 py-2 text-sm text-slate-300 focus:outline-none focus:border-blue-500">
             <?php foreach ($categories as $c): ?>
               <option value="<?= $c ?>">
@@ -44,14 +44,14 @@
 
         <div>
           <label class="text-xs text-slate-400 mb-1 block">Date</label>
-          <input type="date" name="expense_date"
+          <input type="date" name="date" required
             class="w-full bg-[#2c2c2e] border border-zinc-200/10 rounded-lg px-3 py-2 text-sm text-slate-300 focus:outline-none focus:border-blue-500" />
         </div>
 
         <div>
           <label class="text-xs text-slate-400 mb-1 block">Description <span
               class="text-slate-600">(optional)</span></label>
-          <input type="text" placeholder="Add a note..." name="description"
+          <input type="text" placeholder="Add a note..." name="description" required
             class="w-full bg-[#2c2c2e] border border-zinc-200/10 rounded-lg px-3 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-blue-500" />
         </div>
 
