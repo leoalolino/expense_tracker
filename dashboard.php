@@ -191,6 +191,8 @@ $expenses = $stmt->fetchAll();
       el.classList.add('border-white');
     }
 
+    // ... keep your existing details() function ...
+
     function openEdit() {
       document.getElementById('editId').value = selectedId;
       document.getElementById('editTitle').value = selectedTitle;
@@ -198,7 +200,30 @@ $expenses = $stmt->fetchAll();
       document.getElementById('editCategory').value = selectedCategory;
       document.getElementById('editDate').value = selectedDate;
       document.getElementById('editDescription').value = selectedDescription;
+
       document.getElementById('editModal').classList.remove('hidden');
+    }
+
+    function crudDelete() {
+      if (!selectedId) return;
+
+      fetch('crud/logic.php', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            id: selectedId,
+            action: 'delete'
+          })
+        })
+        .then(res => {
+          if (res.ok) {
+            window.location.reload();
+          } else {
+            alert("Check if you are logged in.");
+          }
+        });
     }
   </script>
 </body>
